@@ -1,0 +1,34 @@
+@startuml
+!include ../C4_Container.puml
+
+Person(client, "Client", "The client of «Standard» bank")
+System_Boundary(platform, "«Warm house» System") {
+    Container(web_app, "Website", "PHP, React.js", "Website for information obtaining and requests creating")
+    Container(internet_bank, "Internet bank", "ASP.NET MVC 4.5 on .NET Framework 4.5, MS SQL", "Internet bank for information obtaining and requests creating")
+    Container(automated_bank_system, "Automated bank system", "Delphi", "Core bank system")
+    Container(call_center, "Call center", "React.js, Java Spring Boot, PostgresQL", "")
+    Container(partner_call_center, "Partner call center", "", "")
+
+    ContainerQueue(message_broker, "Asynchronous Event Bus", "Kafka", "Orchestrates asynchronous service interaction")
+
+    ContainerDb(client_db, "Client Database", "Oracle", "Storage for client accounts")
+}
+
+System_Ext(telecom_operator, "Telecom operator", "Telecom operator system")
+
+Rel(client, web_app, "Makes requests", "HTTPS")
+Rel(client, internet_bank, "Makes requests", "HTTPS")
+Rel(client, call_center, "Makes requests", "Telekom protocols")
+Rel(client, partner_call_center, "Makes requests", "Telekom protocols")
+
+Rel(web_app, message_broker, "Publishes events via", "async/events")
+Rel(internet_bank, message_broker, "Publishes events via", "async/events")
+Rel(call_center, message_broker, "Publishes events via", "async/events")
+Rel(partner_call_center, message_broker, "Publishes events via", "async/events")
+
+Rel(message_broker, automated_bank_system, "Requests information via", "async/events")
+Rel(automated_bank_system, client_db, "Reads/Writes", "SQL")
+Rel(message_broker, telecom_operator, "Requests information via", "async/events")
+Rel(telecom_operator, client, "Sends/Receives notifications", "SMS")
+
+@enduml
