@@ -2,7 +2,7 @@
 !include ../C4_Container.puml
 
 Person(client, "Client", "The client of «Standard» bank")
-System_Boundary(platform, "«Warm house» System") {
+System_Boundary(platform, "«Standard» bank system") {
     Container(web_app, "Website", "PHP, React.js", "Website for information obtaining and requests creating")
     Container(internet_bank, "Internet bank", "ASP.NET MVC 4.5 on .NET Framework 4.5, MS SQL", "Internet bank for information obtaining and requests creating")
     Container(automated_bank_system, "Automated bank system", "Delphi", "Core bank system")

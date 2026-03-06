@@ -1,0 +1,13 @@
+@startuml
+!include ../C4_Context.puml
+title «Standard» bank context diagram
+
+Person(call_center_employee, "Partner call center employee", "Communicates with clients")
+System(bank_system, "«Standard» bank system", "Bank management platform")
+
+System_Ext(call_center_system, "Partner call center system", "")
+
+Rel(call_center_employee, call_center_system, "Requests actual rates", "Web")
+Rel(call_center_system, bank_system, "Requests actual rates", "Files")
+
+@enduml
