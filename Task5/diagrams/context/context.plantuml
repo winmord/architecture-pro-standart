@@ -1,0 +1,13 @@
+@startuml
+!include ../C4_Context.puml
+title «Standard» bank context diagram
+
+Person(client, "Client", "The client of «Standard» bank")
+System(bank_system, "«Standard» bank system", "Bank management platform")
+
+System_Ext(external_system, "External system", "Telecom operator, credit bureau")
+
+Rel(client, bank_system, "Sends a request to receive a credit in", "Web")
+Rel(bank_system, external_system, "Requests/Sends", "Notifications, scoring")
+
+@enduml
