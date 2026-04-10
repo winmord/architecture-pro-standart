@@ -1,0 +1,20 @@
+@startuml
+!include ../C4_Container.puml
+
+Person(call_center_employee, "Partner call center employee", "Communicates with clients")
+System_Boundary(platform, «Standard» bank system) {
+    Container(automated_bank_system, "Automated bank system", "Delphi", "Core bank system")
+    Container(rates_service, "Rates service", "Go", "Getting actual rates from ABS and transforming information into files")
+
+    ContainerDb(rates_db, "Actual rates Database", "PostgresQL", "Storage for actual rates")
+}
+
+System_Ext(call_center_system, "Partner call center system", "")
+
+Rel(call_center_employee, call_center_system, "Makes requests", "HTTPS")
+Rel(call_center_system, automated_bank_system, "Request", "Files")
+Rel(rates_service, automated_bank_system, "Request", "HTTPS")
+Rel(automated_bank_system, rates_db, "Request", "SQL")
+Rel(rates_service, call_center_system, "Sends", "Files")
+
+@enduml
